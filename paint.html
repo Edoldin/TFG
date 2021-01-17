@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <title>Paint</title>
+        <style>
+            html,head,body,canvas{
+                padding: 0;
+                margin: 0;
+                border:0;
+            }
+            html,body{
+                width:  100%;
+                height: 100%;
+            }
+        </style>
+        <script type="text/javascript">
+            var canvas=document.createElement("canvas");
+            var ctx=canvas.getContext("2d");
+            function Point(x=0,y=0){
+                return {x:x,y:y}
+            }
+            function getCanvasPosition(e) {
+                return {
+                    x: e.clientX + document.body.scrollLeft,
+                    y: e.clientY + document.body.scrollTop
+                };
+            }
+            var mouse={
+                Ldown:false,
+                Rdown:false,
+                lastPos:undefined,
+                getCanvasPosition:function(e){
+                    var r = canvas.getBoundingClientRect();
+                    return Point(e.clientX - r.left, e.clientY - r.top)
+                },
+                up:function(e){
+                    const p=getCanvasPosition(e);
+                    console.log(p);
+                },
+                down:function(e){
+                    const p=getCanvasPosition(e);
+                    console.log(p);
+                },
+                move:function(e){
+                    const p=getCanvasPosition(e);
+                    //console.log(p);
+                }
+            }
+            var utils={
+                addEventListeners:function(){
+                    document.addEventListener("onmouseup",mouse.up);
+                    document.addEventListener("onmousedown",mouse.down);
+                    document.addEventListener("onmousemove",mouse.move);
+                    window.addEventListener("resize",utils.resize)
+                },
+                resize:function (){
+                    canvas.height=window.innerHeight;
+                    canvas.width=window.innerWidth;
+                    canvas.style.height=window.innerHeight;
+                    canvas.style.width=window.innerWidth;
+                },
+                onload:function(){
+                    document.body.appendChild(canvas);
+                    utils.addEventListeners();
+                    utils.resize();
+                }
+            }
+            window.addEventListener('load', utils.onload)
+
+        </script>
+    </head>
+    <body></body>
+</html>
